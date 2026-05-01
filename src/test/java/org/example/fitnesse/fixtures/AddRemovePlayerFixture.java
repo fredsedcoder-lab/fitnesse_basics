@@ -1,11 +1,11 @@
-package org.example.fixtures;
+package org.example.fitnesse.fixtures;
 
-import fit.ColumnFixture;
 import org.example.sut.Game;
 import org.example.sut.Player;
-import org.example.sut.StaticGame;
 
-public class AddRemovePlayerFixture extends ColumnFixture{
+import java.util.Objects;
+
+public class AddRemovePlayerFixture {
     private String playerName;
     private Game theGame;
 
@@ -21,5 +21,16 @@ public class AddRemovePlayerFixture extends ColumnFixture{
 
     public int countPlayers() {
         return theGame.getNumberOfPlayers();
+    }
+
+    public boolean removePlayer() {
+        theGame = StaticGame.getInstance();
+        Player thePlayer = theGame.getPlayerNamed(playerName);
+        theGame.removePlayer(thePlayer);
+        return (playerWasRemoved(thePlayer));
+    }
+
+    public boolean playerWasRemoved(Player aPlayer) {
+        return (Objects.nonNull(aPlayer) && !theGame.playerIsPlaying(aPlayer));
     }
 }
